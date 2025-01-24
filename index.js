@@ -19,6 +19,7 @@ app.get("/", (req, res) =>{
 app.post("/submit", (req, res) =>{
     const inputData = req.body.notes;
     const eachDay = inputData.replace(/\r/g,"").split("\n");
+    console.log(eachDay);
     if (eachDay[eachDay.length - 1].trim() === ""){
         eachDay.pop();
     }
@@ -37,7 +38,8 @@ app.listen(port, () => {
 
 //a helper function which extracts the start and end time of working hours from the array items\
 function timeExtractor(array){
-    return array.map(item => {
+    const updatedArray = array.filter(item => item !== "");
+    return updatedArray.map(item => {
         const [firstHalf, secondHalf] = item.split("to").map(time => time.trim());
         const startTime = firstHalf.split(" ").slice(-2).join(" ");
         const endTime = secondHalf.split(" ").slice(0,2).join(" ");
