@@ -6,7 +6,6 @@
     <title>Calculated Pay</title>
     <style>
         .container{
-            height: 80vh;
             display: flex;
             flex-direction: row;
             justify-content: center;
@@ -19,7 +18,11 @@
     <div class="container">
         <ul style="list-style-type: none;">
             <% locals.result.forEach(item => { %>
+                <% if(item.original === "line"){ %>
+                    <li><hr></li>
+                <% }else{ %>
                 <li><%= item.original %> - Pay: <%= item.pay %></li>
+                <% } %> 
             <% }); %>
         </ul>
     </div>

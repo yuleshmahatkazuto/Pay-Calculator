@@ -7,6 +7,19 @@
 }
 
 textarea{
-  height: 30vh;
+  height: 80vh;
   width: 100vh;
+  font-size: 1.5rem;
 }
+
+button{
+  height: 50px;
+  width: 100px;
+}
+
+button:hover{
+  cursor: pointer;
+  background-color: green;
+  border-radius: 5px;
+}
+

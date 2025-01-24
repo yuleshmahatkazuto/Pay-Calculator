@@ -24,10 +24,6 @@ app.post("/submit", (req, res) =>{
         eachDay.pop();
     }
     let arrayOfObjects = timeExtractor(eachDay);
-    arrayOfObjects.forEach(object => {
-        console.log(object.original + " " + object.pay);
-    });
-
     res.render("partials/calculated.ejs", {result: arrayOfObjects});
 });
 
@@ -38,17 +34,21 @@ app.listen(port, () => {
 
 //a helper function which extracts the start and end time of working hours from the array items\
 function timeExtractor(array){
-    const updatedArray = array.filter(item => item !== "");
-    return updatedArray.map(item => {
-        const [firstHalf, secondHalf] = item.split("to").map(time => time.trim());
-        const startTime = firstHalf.split(" ").slice(-2).join(" ");
-        const endTime = secondHalf.split(" ").slice(0,2).join(" ");
-        let jobType = "";
-        if (secondHalf.split(" ").length === 3){
-            jobType = "barrier";
+    return array.map(item => {
+
+        if(item === ""){
+            return {original: "line"};
+        }else{
+            const [firstHalf, secondHalf] = item.split("to").map(time => time.trim());
+            const startTime = firstHalf.split(" ").slice(-2).join(" ");
+            const endTime = secondHalf.split(" ").slice(0,2).join(" ");
+            let jobType = "";
+            if (secondHalf.split(" ").length === 3){
+                jobType = "barrier";
+            }
+            const pay = payCalculator(startTime, endTime, jobType);
+            return {original: item, pay};
         }
-        const pay = payCalculator(startTime, endTime, jobType);
-        return {original: item, pay}
     });
 }
 
